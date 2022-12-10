@@ -1,5 +1,4 @@
 import random
-
 class Fighter():
     def __init__(self, name):
         self.name=name
@@ -12,4 +11,3 @@ class Fighter():
 
     def take_damage(self, amount):
         self.currentHp -= amount
-    

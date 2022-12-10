@@ -5,9 +5,7 @@ from characterController import Fighter
 
 class Monster(Fighter):
     def __init__(self, name):
-        self.name=name
-        self.maxHp = 75
-        self.currentHp = self.maxHp
+        super().__init__(name)
 
     def saveStatus(self):
         with open(self.name, 'wbpsa') as f:
