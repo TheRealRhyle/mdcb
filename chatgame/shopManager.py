@@ -15,9 +15,9 @@ class Weaponsmith():
         
 
 class Weapons():      
-    def __init__(self, **kwargs):
-        self.name = f"{kwargs['adjective'] if 'adjective' in kwargs else ''} {kwargs['name'] if 'name' in kwargs else ''}".strip(" ")
-        self.damage = kwargs['damage'] if 'damage' in kwargs else 'SB'
+    # def __init__(self, **kwargs):
+    #     self.name = f"{kwargs['adjective'] if 'adjective' in kwargs else ''} {kwargs['name'] if 'name' in kwargs else ''}".strip(" ")
+    #     self.damage = kwargs['damage'] if 'damage' in kwargs else 'SB'
 
     def randomWeapon(self, **kwargs):
         with open("chatgame/adjectives.txt", 'r') as f:
