@@ -1,0 +1,1 @@
+Long Sword: 10, Short Sword: 5, Staff: 3, Hammer: 4, Bow: 3
