@@ -13,7 +13,6 @@ class ChanBot():
         config = configparser.ConfigParser()
         config.read('config.cfg')
         config.sections()
-        print(config['DEFAULT'])
         self.channels = []
         self.listenChannel = config['DEFAULT']['listenChannel']
         self.host = config['DEFAULT']['host']
@@ -73,6 +72,9 @@ if  __name__=="__main__":
         
         # channel, user, message = rbot.readChatMessage()
         print(x)
+        # get actual message
+
+        
         message = x.split(":")[-1].strip("!s ")
         if "!join" in x:
             newchan = x.split(" ")[-1]
