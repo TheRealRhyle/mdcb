@@ -187,5 +187,9 @@ poetry.toml
 .history
 .ionide
 
+### Config for bot
+#
+*.cfg
+
 # End of https://www.toptal.com/developers/gitignore/api/python,visualstudiocode
 
