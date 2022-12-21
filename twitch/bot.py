@@ -1,18 +1,15 @@
-import socket
-import json
-from urllib import request
-import time
-import os
-import configparser
+import configparser, os, socket, sys, time
 
-# config = configparser.ConfigParser()
-# config.read('config.cfg')
+sys.path.insert(0, os.getcwd())
+print('\n'.join(sys.path))
 
+from utils.pgres import Database as db
 class ChanBot():
     def __init__(self):
         config = configparser.ConfigParser()
         config.read('config.cfg')
         config.sections()
+        # get list of channels to join from the DB
         self.channels = []
         self.listenChannel = config['DEFAULT']['listenChannel']
         self.host = config['DEFAULT']['host']
@@ -35,6 +32,8 @@ class ChanBot():
     def joinChannel(self, channel):
         self.s.send(bytes("JOIN #" + channel + "\r\n", 'UTF-8'))
         self.channels.append(channel)
+        x= db()
+        x.createChannelTable(channel)
 
     def partChannel(self, channel):
         self.s.send(bytes("PART #" + channel + "\r\n", 'UTF-8'))
@@ -63,25 +62,26 @@ if  __name__=="__main__":
     rbot.joinChannel(rbot.listenChannel)
     
     while True:
-        time.sleep(1)
-        x= rbot.readChatMessage()
-        rbot.processCommands(x)
-        
-        # with open('chatlog.txt', 'a' , encoding="utf-8") as cl:
-        #     cl.writelines(x)
+        chatline=rbot.readChatMessage()
+        # rbot.processCommands(chatline)
         
         # channel, user, message = rbot.readChatMessage()
-        print(x)
-        # get actual message
-
+        # @badge-info=subscriber/53;badges=broadcaster/1,subscriber/0,premium/1;client-nonce=96beb9f89ee721c007f0e53aa35b81f2;color=#8A2BE2;display-name=Rhyle_;emotes=;first-msg=0;flags=;id=efbcc93d-8211-4f77-8b45-215e34198c1b;mod=0;returning-chatter=0;room-id=38847203;subscriber=1;tmi-sent-ts=1671592517126;turbo=0;user-id=38847203;user-type= :rhyle_!rhyle_@rhyle_.tmi.twitch.tv PRIVMSG #rhyle_ :test
+        if chatline.startswith("@badge-info") and 'USERSTATE' not in chatline:
+            pinfo = chatline.split("user-id=")[1]
+            uid, p2info = pinfo.split(";")
+            username = p2info.split(":")[1].split('!')[0]
+            channel, message = p2info.split("PRIVMSG ")[1].split(" :")
+            print(f'uid: {uid}\tusername: {username}\tchannel: {channel}\tmessage: {message}')
         
-        message = x.split(":")[-1].strip("!s ")
-        if "!join" in x:
-            newchan = x.split(" ")[-1]
-            rbot.joinChannel(newchan)
-            # rbot.sendChannelMessage(newchan, "I am here as requested, feel free to ignore me. also... POTATO")
-        if '!s' in x and 'display-name=Rhyle_' in x:
-            rbot.sendChannelMessage('13thfaerie', message)
+        if chatline.startswith("@badge-info") and "!join me" in message:
+            rbot.joinChannel(username)
+            rbot.sendChannelMessage(username, "I am here as requested, feel free to ignore me. also... POTATO!")
+        
+        if chatline.startswith("@badge-info") and '!s' in message and username == 'rhyle_':
+            channel = message.split(" ", 2)[1]
+            rbot.sendChannelMessage(channel, message.split(" ", 2)[-1])
+        
         # if "!part" in x:
         #     newchan = x.split(" ")[-1]
         #     rbot.sendChannelMessage(newchan, 'Banished again....')

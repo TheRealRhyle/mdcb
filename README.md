@@ -18,3 +18,10 @@ This is really just a personal project and a rework of my custom twitch bot.  I'
 * Boss fights(?)
 * Quests(?)
 * Crafting(?)
+
+### Other work on parts of the bot
+* Twitter integration - send tweets from a channel command
+* Mastodon integration - toot from channel command
+* Potentially youtube Live integration
+* connection to AWS RDS
+* 
