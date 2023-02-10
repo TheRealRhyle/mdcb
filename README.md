@@ -1,3 +1,4 @@
+![GitHub language count](https://img.shields.io/github/languages/count/TheRealRhyle/mdcb)
 # mdcb
 This is really just a personal project and a rework of my custom twitch bot.  I'm trying to add more usefulness, and interactivity to the bot while also learning more about python.
 
